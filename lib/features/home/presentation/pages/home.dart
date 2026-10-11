@@ -1,6 +1,7 @@
 import 'package:ass_3/core/widgets/action_bar.dart';
 import 'package:ass_3/core/widgets/app_button.dart';
 import 'package:ass_3/core/widgets/app_input_field.dart';
+import 'package:ass_3/features/home/presentation/widgets/contact_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,7 +25,11 @@ class _HomeState extends State<Home> {
 
     final name = _nameKey.currentState?.text.trim() ?? '';
     final phone = _phoneKey.currentState?.text.trim() ?? '';
-    phoneBook.add({'name': name, 'phone_number': phone});
+
+    // updating the map with state change
+     setState(() {
+      phoneBook.add({'name': name, 'phone_number': phone});
+    });
 
     return "Success";
   }
@@ -87,7 +92,15 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   )
-                : Text(""),
+                : SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: phoneBook.map((contact) {
+                        return ContactWidget(contact: contact);
+                      }).toList(),
+                    ),
+                  )
+
           ],
         ),
       ),
